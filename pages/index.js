@@ -1,13 +1,8 @@
 import { Component } from "react";
-import styled, { createGlobalStyle } from "styled-components";
-import Media from "../src/UI/component/media";
-import Header from "../src/UI/component/header";
-import GlobalStyle from "../style/globalStyle";
 import Error from "../src/UI/component/_error";
-import Head from "next/head";
 import "isomorphic-fetch";
-import { Link } from "../routes";
-import slug from '../helpers/slug'
+import Layout from "../src/UI/component/Layout";
+import ChannelGrid from "../src/UI/component/ChannelGrid";
 
 class Home extends Component {
   static async getInitialProps({ res }) {
@@ -28,50 +23,11 @@ class Home extends Component {
     }
 
     return (
-      <>
-        <GlobalStyle />
-        <Head>
-          <title>Welcome to Sprotify</title>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <Header />
-        <ChannelsContainter>
-          {channels.map(channel => (
-            <Link
-              route="channel"
-              params={{
-                slug: slug(channel.title),
-                id: channel.id
-              }}
-              key={channel.id}
-            >
-              <a style={{ textDecoration: "none" }}>
-                <Media
-                  key={channel.id}
-                  title={channel.title}
-                  src={channel.urls.logo_image.original}
-                />
-              </a>
-            </Link>
-          ))}
-        </ChannelsContainter>
-      </>
+      <Layout title="Sprotify">
+        <ChannelGrid channels={channels}/>
+      </Layout>
     );
   }
 }
 
 export default Home;
-
-const ChannelsContainter = styled.div`
-  display: grid;
-  grid-gap: 15px;
-  padding: 15px;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  }
-`;
