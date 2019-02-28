@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import React from "react";
-import Link from "next/link";
-import Head from "next/head";
-import GlobalStyle from "../../../style/globalStyle";
+import {Link} from "../../../routes";
+
 const Header = styled.header`
   background-color: rgb(85, 212, 114);
   color: white;
@@ -26,14 +25,10 @@ const Logo = styled.img`
   margin-left: 0.5em;
 `;
 
-const header = props => {
+const header = () => {
   return (
     <Header>
-      <GlobalStyle />
-      <Head>
-        <title>{props.title}</title>
-      </Head>
-      <Link href="/index">
+      <Link route='index'>
         <a
           style={{
             textDecoration: "none",

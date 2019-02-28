@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import Header from "../src/UI/component/header";
+import Layout from "../src/UI/component/Layout";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
-import GlobalStyle from "../style/globalStyle";
-import Head from "next/head";
-import Link from "next/link";
+import { Link } from "../routes";
+import slug from "../helpers/slug";
 
 const MainWrapper = styled.div`
   height: 100vh;
@@ -22,12 +21,12 @@ const MainWrapper = styled.div`
 `;
 
 const ClipTitle = styled.h2`
-    @media screen and (max-width: 768px) {
-      font-size: 16px;
-      padding: 0px 45px;
-      margin-bottom: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+    padding: 0px 45px;
+    margin-bottom: 30px;
   }
-`
+`;
 
 const TagLink = styled.h3`
   color: #08c38b;
@@ -80,39 +79,35 @@ class ClipContainer extends Component {
 
   render() {
     const { clip } = this.props;
-    {
-      console.log(clip);
-    }
+
     return (
-      <MainWrapper>
-        <GlobalStyle />
-        <Head>
-          <title>{clip.title}</title>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-        </Head>
-        <Header />
+      <Layout title={clip.title}>
+        <MainWrapper>
+          <Link
+            route="channel"
+            params={{
+              slug: slug(clip.channel.title),
+              id: clip.channel.id
+            }}
+          >
+            <StyledLink href="">
+              <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
+              <TagLink>Volver</TagLink>
+            </StyledLink>
+          </Link>
 
-        <Link href={`/channel?id=${clip.channel.id}`}>
-          <StyledLink href="">
-            <FontAwesomeIcon icon={faArrowAltCircleLeft} size="lg" />
-            <TagLink>Volver</TagLink>
-          </StyledLink>
-        </Link>
+          <ClipTitle>{clip.title}</ClipTitle>
+          {clip.urls.image ? (
+            <PodcastImage src={clip.urls.image} alt="" />
+          ) : (
+            <PodcastImage src={clip.channel.urls.logo_image.original} alt="" />
+          )}
 
-        <ClipTitle>{clip.title}</ClipTitle>
-        {clip.urls.image ? (
-          <PodcastImage src={clip.urls.image} alt="" />
-        ) : (
-          <PodcastImage src={clip.channel.urls.logo_image.original} alt="" />
-        )}
-
-        <AudioPlayer controls autoPlay={true}>
-          <source src={clip.urls.high_mp3} type="audio/mpeg" />
-        </AudioPlayer>
-      </MainWrapper>
+          <AudioPlayer controls autoPlay={true}>
+            <source src={clip.urls.high_mp3} type="audio/mpeg" />
+          </AudioPlayer>
+        </MainWrapper>
+      </Layout>
     );
   }
 }

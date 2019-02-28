@@ -1,9 +1,7 @@
 import { Component } from "react";
-import Header from "../src/UI/component/header";
-import GlobalStyle from "../style/globalStyle";
+import Layout from "../src/UI/component/Layout";
 import styled from "styled-components";
 import "isomorphic-fetch";
-import Head from "next/head";
 import PlaylisItems from "../src/UI/component/Playlist";
 import ErrorNext from "../src/UI/component/_error";
 
@@ -179,32 +177,25 @@ class ChannelContainer extends Component {
     }
     return (
       <div style={{ height: "100vh" }}>
-        <Head>
-          <title>{channel.title}</title>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-        </Head>
-        <GlobalStyle />
-        <Header />
-        <GridWrapper>
-          <Banner>
-            <Image src={channel.urls.banner_image.original} />
-            <Cover>
-              <Image src={channel.urls.logo_image.original} />
-            </Cover>
-          </Banner>
-          <Description>
-            <ChannelTitle>{channel.title}</ChannelTitle>
-            <Paragraph>{channel.description}</Paragraph>
-            {seriesRendering(series)}
-          </Description>
-          <Playlist Color="white">
-            <h3>Escucha lo que más te guste :)</h3>
-            <PlaylisItems clips={audios} />
-          </Playlist>
-        </GridWrapper>
+        <Layout title={channel.title}>
+          <GridWrapper>
+            <Banner>
+              <Image src={channel.urls.banner_image.original} />
+              <Cover>
+                <Image src={channel.urls.logo_image.original} />
+              </Cover>
+            </Banner>
+            <Description>
+              <ChannelTitle>{channel.title}</ChannelTitle>
+              <Paragraph>{channel.description}</Paragraph>
+              {seriesRendering(series)}
+            </Description>
+            <Playlist Color="white">
+              <h3>Escucha lo que más te guste :)</h3>
+              <PlaylisItems clips={audios} />
+            </Playlist>
+          </GridWrapper>s
+        </Layout>
       </div>
     );
   }

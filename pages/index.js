@@ -23,7 +23,7 @@ class Home extends Component {
     }
 
     return (
-      <Layout title="Sprotify">
+      <Layout title='Sprotify'>
         <ChannelGrid channels={channels}/>
       </Layout>
     );
