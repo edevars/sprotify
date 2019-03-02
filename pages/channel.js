@@ -2,8 +2,9 @@ import { Component } from "react";
 import Layout from "../src/UI/component/Layout";
 import styled from "styled-components";
 import "isomorphic-fetch";
-import PlaylisItems from "../src/UI/component/Playlist";
+import PlaylisItems from "../src/UI/component/PlaylistWithClick";
 import ErrorNext from "../src/UI/component/_error";
+import PodcastPlayer from "../src/UI/component/podcastPlayer";
 
 function seriesRendering(series) {
   if (series != 0) {
@@ -135,6 +136,16 @@ const SeriesTitle = styled.h3`
   padding-top: 15px;
 `;
 
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  background-color: blue;
+`;
+
 class ChannelContainer extends Component {
   static async getInitialProps({ query, res }) {
     try {
@@ -170,14 +181,42 @@ class ChannelContainer extends Component {
     }
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      openPodcast: null
+    };
+  }
+
+  openPodcast = (event, podcast) => {
+    event.preventDefault();
+    this.setState({
+      openPodcast: podcast
+    });
+  };
+
+  closePodcast = event => {
+    this.setState({
+      openPodcast: null
+    });
+  };
+
   render() {
     const { channel, series, audios, statusCode } = this.props;
+    const { openPodcast } = this.state;
+
     if (statusCode != 200) {
       return <ErrorNext statusCode={statusCode} />;
     }
+
     return (
       <div style={{ height: "100vh" }}>
         <Layout title={channel.title}>
+          {openPodcast && (
+            <Modal>
+              <PodcastPlayer clip={openPodcast} onClose={this.closePodcast}/>
+            </Modal>
+          )}
           <GridWrapper>
             <Banner>
               <Image src={channel.urls.banner_image.original} />
@@ -192,9 +231,9 @@ class ChannelContainer extends Component {
             </Description>
             <Playlist Color="white">
               <h3>Escucha lo que más te guste :)</h3>
-              <PlaylisItems clips={audios} />
+              <PlaylisItems clips={audios} onClickPodcast={this.openPodcast} />
             </Playlist>
-          </GridWrapper>s
+          </GridWrapper>
         </Layout>
       </div>
     );

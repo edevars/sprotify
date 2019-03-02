@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import MediaItem from "../component/MediaItem";
-import { Link } from "../../../routes";
-import slug from "./../../../helpers/slug";
+import MediaItem from "./MediaItem";
+import slug from "../../../helpers/slug";
 
 // *! STYLES
 const MainGrid = styled.div`
@@ -14,13 +13,14 @@ const MainGrid = styled.div`
 
 const styleLink = {
   textDecoration: "none",
-  color: "black"
+  color: "black",
+  cursor: "pointer"
 };
 
 class Playlist extends Component {
   render() {
     const { clips, onClickPodcast } = this.props;
-    
+
     return (
       <MainGrid>
         {clips.map(audio => {
@@ -31,24 +31,13 @@ class Playlist extends Component {
             src = audio.urls.post_image.original;
           }
           return (
-            <Link
+            <a
               key={audio.id}
-              route="clip"
-              params={{
-                slugChannel: slug(audio.channel.title),
-                idChannel: audio.channel.id,
-                slug: slug(audio.title),
-                id: audio.id
-              }}
+              style={styleLink}
+              onClick={() => onClickPodcast(event, audio)}
             >
-              <a
-                style={styleLink}
-                href=''
-                onClick={()=>onClickPodcast(event,audio)}
-              >
-                <MediaItem key={audio.id} title={audio.title} src={src} />
-              </a>
-            </Link>
+              <MediaItem key={audio.id} title={audio.title} src={src} />
+            </a>
           );
         })}
       </MainGrid>
