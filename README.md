@@ -14,3 +14,7 @@ Esta es la app de sprotify, creada con el fin de ejemplificar la integración de
 
  * `npm install` para instalar las dependencias
  * `npm run dev` para lanzar la app
+ 
+## Demo Live con Now
+
+https://sprotify-57pqcokyu.now.sh/
