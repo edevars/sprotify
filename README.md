@@ -17,4 +17,4 @@ Esta es la app de sprotify, creada con el fin de ejemplificar la integración de
  
 ## Demo Live con Now
 
-https://sprotify-57pqcokyu.now.sh/
+https://sprotify-a6zckdc6q.now.sh/
